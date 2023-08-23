@@ -150,7 +150,6 @@ export function generateProduct() {
   return {
     id: faker.database.mongodbObjectId(),
     title: faker.commerce.productName(),
-    description: fakerES.commerce.productDescription(),
     /* description: faker.commerce.productDescription(), */
     price: faker.commerce.price(),
     thumbnail: faker.internet.avatar(),

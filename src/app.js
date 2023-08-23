@@ -19,9 +19,14 @@ import { sessionsRouter } from './routes/sessions.router.js';
 import { __dirname, connectMongo, connectSocket } from './utils.js';
 import { testFaker } from './testFaker.js';
 import errorHandler from './middleware/error.js';
+import { testLogger } from './routes/test.router.js';
+import { addLogger } from './middleware/logger.js';
+
 
 const app = express();
 const port = 8080;
+
+app.use(addLogger);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -79,6 +84,7 @@ app.use('/api/sessions', sessionsRouter);
 
 /* Api Test Prueba*/
 app.use('/mockingproducts', testFaker);
+app.use('/loggerTest', testLogger);
 app.use(errorHandler);
 
 /* Config Handlebars */
