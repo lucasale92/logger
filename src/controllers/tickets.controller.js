@@ -92,15 +92,17 @@ class TicketsController {
           const precioTotalProducto = productPrice * quantityInCart;
           cartConStock.push({ idProduct, quantity: quantityInCart, precioTotalProducto, title });
           const product = productClass.getOneById(idProduct);
+          let quantityTotal = availableStock - quantityInCart;
           productClass.updateOne(
             idProduct,
-            product.description,
             product.title,
-            product.code,
+            product.description,
             product.price,
-            quantityInCart,
-            product.status,
-            product.thumbnails
+            product.thumbnails,
+            product.code,
+            quantityTotal,
+            product.category,
+            product.status
           );
         } else {
           cartSinStock.push({ idProduct, quantity: quantityInCart });
@@ -134,7 +136,8 @@ class TicketsController {
       await TicketModel.findByIdAndUpdate(ticket._id, { code: code });
       await cartService.cleanCart(idCart);
 
-      return res.status(200).render('ticketFinal', { cart: cart, idCart, infoUser, precioTotal });
+      const idTicket = ticket._id;
+      return res.status(200).render('ticketFinal', { idTicket, cart: cart, idCart, infoUser, precioTotal });
     } catch (error) {
       console.log(error);
     }
